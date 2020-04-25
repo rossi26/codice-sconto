@@ -1,0 +1,29 @@
+
+#main-navigation{
+    /* position: fixed; */ 
+    /* left: 0;
+    top:0; */
+    width: 100%;
+    height: 3.5rem;
+    display: flex;
+    justify-content: space-between;
+   
+}
+.authentication{
+    margin-right: 48px;
+    list-style: none;
+
+}
+.authentication button{
+    background-color: #78C2AD !important;
+
+}
+
+
+#navbarColor01 button{
+    font:inherit;
+    cursor: pointer;
+   align-items: left;
+   
+    
+}
