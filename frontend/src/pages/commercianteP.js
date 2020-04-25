@@ -1,51 +1,50 @@
 import React, {Component} from 'react';
-/* import Modal from '../components/Modal/Modal';
-import Backdrop from '../components/Backdrop/Backdrop'; */
+import Modal from '../components/Modal/Modal';
+import Backdrop from '../components/Backdrop/Backdrop';
 import axios from 'axios';
 import AuthContext from '../context/auth-context'
-
+import './commercianteP.css'
 import {NavLink} from 'react-router-dom'
 
 class CommPage extends Component{
-    /* state = {
+     state = {
         creating: false,
-        room: []
+        codici: []
       };
       constructor(props){
         super(props);
-        this.titleEl = React.createRef();
-        this.descrEl = React.createRef();
-        this.occEl = React.createRef();
+        this.entitascontoEl = React.createRef();
+        this.messaggioEl = React.createRef();
+        this.validitaEl = React.createRef();
       }
       static contextType= AuthContext;
       componentDidMount() {
-        this.fetchRooms();
+        this.fetchCodici();
       }
     
-      startCreateRoomHandler = () => {
+      startCreateHandler = () => {
         this.setState({ creating: true });
       };
     
       modalConfirmHandler = () => {
         this.setState({ creating: false });
-        const title = this.titleEl.current.value;
-        const description = this.descrEl.current.value;
-        const max_occ=+this.occEl.current.value;
+        const entitasconto = this.entitascontoEl.current.value;
+        const messaggio = this.messaggioEl.current.value;
+        const validita=this.validitaEl.current.value;
 
-        if (title.trim().length === 0 || description.trim().length === 0||max_occ<=0 ) {
+        if (entitasconto.trim().length === 0 || messaggio.trim().length === 0||validita.trim().length === 0 ) {
             return;
           }
 
           const  requestBody={
               query:`
               mutation{
-                createRoom(roomInput:{ title:"${title}" , description:"${description}" , max_occupancy:${max_occ} }){
+                createCode(codeInput:{ entitasconto:"${entitasconto}" , messaggio:"${messaggio}" , validita:"${validita}" }){
                       _id
-                      title
-                      hotel{
-                          _id
-                          title
-                      }
+                      code
+                      validita
+                      entitasconto
+                      messaggio
                   }
               }
               `
@@ -65,7 +64,7 @@ class CommPage extends Component{
             }
           )
           .then(response => {
-            this.fetchRooms();
+            this.fetchCodici();
           
           })
           .catch(err => {
@@ -79,19 +78,22 @@ class CommPage extends Component{
         this.setState({ creating: false });
       };
 
-      fetchRooms(){
+      fetchCodici(){
         const requestBody = {
             query: `
                 query {
-                  rooms {
+                  codici {
                     _id
-                    title
-                    description
-                    hotel {
-                      _id
+                    code
+                    entitasconto
+                    messaggio
+                    validita
+                    commerciante{
                       email
                       title
                     }
+                    
+                   
                   }
                 }
               `
@@ -111,10 +113,10 @@ class CommPage extends Component{
           }
         )
         .then(response => {
-            const rooms = response.data.data.rooms;
+            const codici = response.data.data.codici;
             
             
-            this.setState({ room: rooms });
+            this.setState({ codici: codici });
         
         })
         .catch(err => {
@@ -124,24 +126,24 @@ class CommPage extends Component{
 
       } 
 
- */
+ 
     render(){
        
-        /* const roomList = this.state.room.map(room => {
+         const codeList = this.state.codici.map(codice => {
             return (
-              <li key={room._id} className="card">
-                    {room.title} <NavLink to="/prezzi"><button className="btn btn-primary">Inserisci prezzi</button></NavLink>
+              <li key={codice._id} className="card">
+                    {codice.code} <span></span> <NavLink to="/"><button className="btn btn-primary">Condividi</button></NavLink>
               </li>
             );
-          });*/
+          });
 
         return(
-            <h1>belllaaaa</h1>
-            /* 
+            
+           
             <React.Fragment>
         {this.state.creating && <Backdrop />}
         {this.state.creating && (<Modal
-            title="Add Room"
+            title="Add codici"
             canCancel
             canConfirm
             onCancel={this.modalCancelHandler}
@@ -149,28 +151,28 @@ class CommPage extends Component{
           >
             <form>
             <div className="form-group">
-                <input className="form-control" type="text" id="title"  ref={this.titleEl} placeholder="Nome"/>
+                <input className="form-control" type="text" id="entitascontoEl"  ref={this.entitascontoEl} placeholder="entita sconto"/>
             </div>
             <div className="form-group">
-                <input className="form-control" type="text" id="description" ref={this.descrEl}  placeholder="Descrizione" />
+                <input className="form-control" type="text" id="messaggioEl" ref={this.messaggioEl}  placeholder="Messaggio" />
             </div>
             <div className="form-group">
-                <input className="form-control" type="number" id="massima_occ" ref={this.occEl} placeholder="Massima occupazione"/>
+                <input className="form-control" type="date" id="validita" ref={this.validitaEl} placeholder="Validita"/>
             </div>
             </form>
           </Modal>
         )}
        
        {this.context.token&&(<div className="container">
-            <button type="button" className="btn btn-primary" onClick={this.startCreateRoomHandler}>Create room</button>
+            <button type="button" className="btn btn-primary" onClick={this.startCreateHandler}>Create codice</button>
         </div>)} 
         <div className="accordion" id="accordionExample">
         <ul>
-            {roomList}
+            {codeList}
 
         </ul>
         </div>
-        </React.Fragment>  */)
+        </React.Fragment> )
     }
 }
 export default CommPage

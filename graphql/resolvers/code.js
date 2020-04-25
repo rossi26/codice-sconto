@@ -21,7 +21,7 @@ module.exports= {
        
     },
 
-   createCode: (args,req)=>{
+   createCode: async (args,req)=>{
       /*  if(!req.isAuth){
            throw new Error('Unauthenticated')
        } */
@@ -30,6 +30,8 @@ module.exports= {
     const datavalida=new Date(args.codeInput.validita).setUTCHours(0,0,0,0,0)
     const stringa=new Date(datavalida).toISOString()
 
+    console.log(datavalida,stringa)
+
     function createRandomString(length) {
         
         var str = '';
@@ -37,25 +39,24 @@ module.exports= {
         return str.substr(0, length);
     }
 
-        let codice = createRandomString(7)
+        let code = createRandomString(7)
 
         
         let i=0
-        console.log(codici, codice)
+        console.log(codici, code)
 
-        console.log(!codici.includes(codice)||i>100)
-        
-        while(!codici.includes(codice)||i>100){
-            i++
-            codice=createRandomString(7)
+        console.log(!codici.includes(code)||i>100)
+
+        for(i=0;codici.includes(code)||i<100;i++){
+            code=createRandomString(7)
         }
-        i=0
+    
        
 
 
 
         const codice= new Codici({
-            code: codice,
+            code: code,
             entitasconto:args.codeInput.entitasconto,
             messaggio:args.codeInput.messaggio,
             validita:stringa,
@@ -85,6 +86,34 @@ module.exports= {
         
 
     },
+    cancelCode: async args=>{
+        try{
+            const codici= await Codici.findById(args.codeId)
+            
+            
+            const commupdate= await Commercianti.findById(codici.commerciante)
+            
+            if (!commupdate) {
+                throw new Error('Room not found.');
+              }
+              const commupdate1= {
+                  ...commupdate._doc
+              }
+              console.log(commupdate1)
+              commupdate1.codicisconto.pull(codici);
+              await commupdate.save();
+            
+          await Codici.deleteOne({_id:args.codeId})
+          return  transformRoom(commupdate)
+         
+
+
+        }catch(err){
+            throw err
+       }   
+    }
+
+
    
 
 

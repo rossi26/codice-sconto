@@ -1,0 +1,29 @@
+.card{
+    width: 40rem;
+    max-width: 90%;
+    margin: 2rem auto;
+    list-style: none;
+    padding: 0;
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+  }
+  .card button{
+    margin-left: auto;
+  }
+  .container{
+    display: flex; 
+    align-items: center; 
+     justify-content: center;
+  }
+  .accordion{
+    display: flex; 
+   align-items: center; 
+    justify-content: center;
+  }
+  .card {
+    margin: 1rem 0;
+    padding: 1rem;
+      }

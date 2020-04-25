@@ -40,7 +40,7 @@ module.exports = buildSchema(`
 
        
         input DiscountInput {
-            code: String!
+           
             entitasconto:String!
             messaggio:String!
             validita: String!
