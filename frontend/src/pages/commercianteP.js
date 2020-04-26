@@ -73,6 +73,45 @@ class CommPage extends Component{
 
 
       };
+
+      onCancelCode=(codeId)=>{
+        console.log(codeId)
+
+        const  requestBody={
+          query:`
+          mutation{
+            cancelCode( codeId:"${codeId}"){
+                  _id
+                 title
+                 email
+              }
+          }
+          `
+        }
+
+        const token=this.context.token
+          
+         
+          axios.post('http://localhost:5000/graphql',
+            requestBody
+            ,
+            {
+               headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer'+token
+              }
+            }
+          )
+          .then(response => {
+            this.fetchCodici();
+          
+          })
+          .catch(err => {
+            console.log(err, err.response);
+          });
+
+
+      }
     
       modalCancelHandler = () => {
         this.setState({ creating: false });
@@ -130,9 +169,15 @@ class CommPage extends Component{
     render(){
        
          const codeList = this.state.codici.map(codice => {
+          const URLmess=encodeURI(codice.messaggio)
+          
+          const href="https://wa.me/?text="+URLmess
+          
             return (
               <li key={codice._id} className="card">
-                    {codice.code} <span></span> <NavLink to="/"><button className="btn btn-primary">Condividi</button></NavLink>
+                
+                    {codice.code} <div className="bottoni"> <a href={href}><button className="btn btn-primary">Condividi</button></a>
+                    <button className="btn btn-primary" onClick={()=>{this.onCancelCode(codice._id)}}>Brucia Codice</button></div>
               </li>
             );
           });

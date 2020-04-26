@@ -57,7 +57,7 @@ module.exports = buildSchema(`
 
         type RootMutation{
             createComm(commInput: CommInput): Commerciante
-            cancelCode(codeId:String!): CodiceSconto!
+            cancelCode(codeId:String!): Commerciante!
             createCode(codeInput:DiscountInput):CodiceSconto
         }
 

@@ -2,6 +2,7 @@ const Codici=require('../../models/codice');
 const{transformCodice}= require('./merge');
 const Commercianti=require('../../models/commerciante');
 const{commerciante}= require('./merge');
+const {transformCommerciante}= require('./merge');
 
 
 
@@ -88,6 +89,7 @@ module.exports= {
     },
     cancelCode: async args=>{
         try{
+
             const codici= await Codici.findById(args.codeId)
             
             
@@ -99,12 +101,12 @@ module.exports= {
               const commupdate1= {
                   ...commupdate._doc
               }
-              console.log(commupdate1)
+              
               commupdate1.codicisconto.pull(codici);
               await commupdate.save();
             
           await Codici.deleteOne({_id:args.codeId})
-          return  transformRoom(commupdate)
+          return  transformCommerciante(commupdate)
          
 
 

@@ -68,12 +68,14 @@ const transformCommerciante = commerciante => {
 
 
 const transformCodice = codice => {
+    console.log(codice)
+
     
     return {
       ...codice._doc,
       _id: codice.id,
       commerciante:commerciante.bind(this,codice._doc.commerciante),
-      validita: new Date(codice._doc.validita).toISOString()
+      validita: codice._doc.validita.toISOString()
     }
 }
 
