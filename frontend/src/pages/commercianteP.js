@@ -53,7 +53,7 @@ class CommPage extends Component{
           const token=this.context.token
           
          
-          axios.post('http://localhost:5000/graphql',
+          axios.post('/graphql',
             requestBody
             ,
             {
@@ -92,7 +92,7 @@ class CommPage extends Component{
         const token=this.context.token
           
          
-          axios.post('http://localhost:5000/graphql',
+          axios.post('/graphql',
             requestBody
             ,
             {
@@ -141,7 +141,7 @@ class CommPage extends Component{
           const token=this.context.token
           
 
-          axios.post('http://localhost:5000/graphql',
+          axios.post('/graphql',
           requestBody
           ,
           {

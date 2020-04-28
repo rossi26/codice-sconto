@@ -5,6 +5,7 @@ const graphQlSchema= require('./graphql/schema');
 const graphQlResolvers= require('./graphql/resolvers/resolvers');
 const mongoose=require('mongoose');
 const isAuth=require('./middleware/is-auth')
+const path =require('path')
 
 
 const app= express();
@@ -32,8 +33,11 @@ app.use('/graphql',graphqlHttp({
     graphiql:true
 }))//gestisce le richieste che arrivano all'endpoint tramite la middleware function che ha bisogno di sapere dove trova lo schema e dove trova i resolver
 
+app.use(express.static('public'))
 
-
+app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+})
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0-mslvb.mongodb.net/test?retryWrites=true&w=majority`,{
     useNewUrlParser: true
