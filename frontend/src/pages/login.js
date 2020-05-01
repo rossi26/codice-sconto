@@ -66,7 +66,7 @@ class LoginPage extends Component{
     }
         
        
-        axios.post('/graphql',
+        axios.post('http://localhost:5000/graphql',
           requestBody
           ,
           {

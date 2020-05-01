@@ -28,10 +28,10 @@ module.exports= {
        } */
        const codici = await Codici.find({commerciante:{$in:req.commId}});
  
-    const datavalida=new Date(args.codeInput.validita).setUTCHours(0,0,0,0,0)
-    const stringa=new Date(datavalida).toISOString()
+    
+    
 
-    console.log(datavalida,stringa)
+   
 
     function createRandomString(length) {
         
@@ -60,12 +60,12 @@ module.exports= {
             code: code,
             entitasconto:args.codeInput.entitasconto,
             messaggio:args.codeInput.messaggio,
-            validita:stringa,
+            validita:args.codeInput.validita,
             commerciante:req.commId
         })
         let createdCode
         return codice.save().then(res=>{
-            createdCode = {...res._doc, _id:res.id, validita:res.validita.toISOString(), commerciante:commerciante.bind(this,res._doc.commerciante)}
+            createdCode = {...res._doc, _id:res.id, commerciante:commerciante.bind(this,res._doc.commerciante)}
             return Commercianti.findById(req.commId)
             
         })
@@ -91,16 +91,29 @@ module.exports= {
         try{
 
             const codici= await Codici.findById(args.codeId)
-            
-            
             const commupdate= await Commercianti.findById(codici.commerciante)
-            
+            const val =codici.validita
             if (!commupdate) {
-                throw new Error('Room not found.');
+                throw new Error('Commerciante not found.');
               }
               const commupdate1= {
                   ...commupdate._doc
               }
+
+            if(val>1){
+                
+                await Codici.updateOne({_id:args.codeId},{$set:{"validita": val-1}})
+                 return  transformCommerciante(commupdate)
+
+
+
+
+            }
+            
+            
+            
+            
+            
               
               commupdate1.codicisconto.pull(codici);
               await commupdate.save();

@@ -13,7 +13,7 @@ const codice= codeID=>{
             commerciante:commerciante.bind(this,codice._doc.commerciante),
             createdAt: new Date(codice._doc.createdAt).toISOString(),
             updatedAt:new Date(codice._doc.updatedAt).toISOString(),
-            validita:new Date(codice._doc.validita).toISOString()            
+                  
          }
      })
     .catch(err=>{
@@ -30,7 +30,7 @@ const codici= codeIDs=>{
                     ...codice._doc,
                     _id:codice.id,
                     commerciante:commerciante.bind(this,codice._doc.commerciante),
-                    validita:new Date(codice._doc.validita).toISOString()
+                   
             }
             })
         }
@@ -75,7 +75,7 @@ const transformCodice = codice => {
       ...codice._doc,
       _id: codice.id,
       commerciante:commerciante.bind(this,codice._doc.commerciante),
-      validita: codice._doc.validita.toISOString()
+     
     }
 }
 

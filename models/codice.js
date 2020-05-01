@@ -20,7 +20,7 @@ const codeSchema = new Schema ({
         ref: 'Commerciante'
     },
     validita: {
-        type:Date,
+        type:Number,
         require:true
     }
             

@@ -20,7 +20,7 @@ module.exports = buildSchema(`
             entitasconto:String!
             messaggio:String!
             commerciante:Commerciante!
-            validita: String!
+            validita: Int!
            
         }
        
@@ -43,7 +43,7 @@ module.exports = buildSchema(`
            
             entitasconto:String!
             messaggio:String!
-            validita: String!
+            validita: Int!
 
         }
        

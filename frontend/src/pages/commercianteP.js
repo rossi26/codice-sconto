@@ -30,16 +30,16 @@ class CommPage extends Component{
         this.setState({ creating: false });
         const entitasconto = this.entitascontoEl.current.value;
         const messaggio = this.messaggioEl.current.value;
-        const validita=this.validitaEl.current.value;
+        const validita=+this.validitaEl.current.value;
 
-        if (entitasconto.trim().length === 0 || messaggio.trim().length === 0||validita.trim().length === 0 ) {
+        if (entitasconto.trim().length === 0 || messaggio.trim().length === 0 ||validita<0  ) {
             return;
           }
 
           const  requestBody={
               query:`
               mutation{
-                createCode(codeInput:{ entitasconto:"${entitasconto}" , messaggio:"${messaggio}" , validita:"${validita}" }){
+                createCode(codeInput:{ entitasconto:"${entitasconto}" , messaggio:"${messaggio}" , validita:${validita} }){
                       _id
                       code
                       validita
@@ -53,7 +53,7 @@ class CommPage extends Component{
           const token=this.context.token
           
          
-          axios.post('/graphql',
+          axios.post('http://localhost:5000/graphql',
             requestBody
             ,
             {
@@ -92,7 +92,7 @@ class CommPage extends Component{
         const token=this.context.token
           
          
-          axios.post('/graphql',
+          axios.post('http://localhost:5000/graphql',
             requestBody
             ,
             {
@@ -141,7 +141,7 @@ class CommPage extends Component{
           const token=this.context.token
           
 
-          axios.post('/graphql',
+          axios.post('http://localhost:5000/graphql',
           requestBody
           ,
           {
@@ -176,7 +176,7 @@ class CommPage extends Component{
             return (
               <li key={codice._id} className="card">
                 
-                    {codice.code} <div className="bottoni"> <a href={href}><button className="btn btn-primary">Condividi</button></a>
+                   <p> {codice.code}</p><p>{codice.validita}</p> <div className="bottoni"> <a href={href}><button className="btn btn-primary">Condividi</button></a>
                     <button className="btn btn-primary" onClick={()=>{this.onCancelCode(codice._id)}}>Brucia Codice</button></div>
               </li>
             );
@@ -202,7 +202,7 @@ class CommPage extends Component{
                 <input className="form-control" type="text" id="messaggioEl" ref={this.messaggioEl}  placeholder="Messaggio" />
             </div>
             <div className="form-group">
-                <input className="form-control" type="date" id="validita" ref={this.validitaEl} placeholder="Validita"/>
+                <input className="form-control" type="number" id="validita" ref={this.validitaEl} placeholder="Validita"/>
             </div>
             </form>
           </Modal>
